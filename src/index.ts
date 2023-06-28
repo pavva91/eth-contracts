@@ -60,18 +60,28 @@ async function run() {
 
   // NOTE: New for 02_Counter
   const el = document.createElement("div");
-  async function setCounter() {
-    el.innerHTML = await counter.getCounter();
+  async function setCounter(count?) {
+    el.innerHTML = count || await counter.getCounter();
   }
   setCounter();
 
   const button = document.createElement("button");
   button.innerText = "increment";
   button.onclick = async function() {
-    const tx = await counter.count();
-    await tx.wait(); // wait for the tx to be done, and then call the counter
-    setCounter();
+    await counter.count()
+
+    // NOTE: Old wait for tx to end without using event
+    // const tx = await counter.count();
+    // await tx.wait(); // wait for the tx to be done, and then call the counter
+    // setCounter();
   };
+
+  // NOTE: New wait for tx to end by using event
+  // NOTE: Use event
+  // PERF: Note that with this setting I can see the update in real time on different browsers (I'm actually taking advantage of the blockchain)
+  counter.on(counter.filters.CounterInc(), function(count) {
+    setCounter(count)
+  })
 
   document.body.appendChild(el);
   document.body.appendChild(button);
