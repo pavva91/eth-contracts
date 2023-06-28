@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import Counter from "../artifacts/contracts/02_Counter.sol/Counter.json"
 
 /**
  * Get Metamask as Provider
@@ -35,13 +36,17 @@ async function run() {
 
   const counter = new ethers.Contract(
     process.env.CONTRACT_ADDRESS,
-    // NOTE: Old ABI 01_HelloWorld.sol
+    // NOTE: Old ABI 01_HelloWorld.sol (inline interface)
     // ["function hello() public pure returns (string memory)"],
-    // NOTE: New ABI 02_Counter.sol
-    [
-      "function count() public",
-      "function getCounter() public view returns (uint32)",
-    ],
+    //
+    // NOTE: Old ABI 02_Counter.sol (inline interface)
+    // [
+    //   "function count() public",
+    //   "function getCounter() public view returns (uint32)",
+    // ],
+
+    // NOTE: New ABI 02_Counter.sol (proper interface, took from artifacts created by npx hardhat run scripts/02..)
+    Counter.abi,
 
     // NOTE: Old ABI 01_HelloWorld.sol (Signer only - read only)
     // new ethers.providers.Web3Provider(getEth())
