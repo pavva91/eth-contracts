@@ -1,5 +1,8 @@
 import { ethers } from "ethers";
 
+/**
+ * Get Metamask as Provider
+ **/
 function getEth() {
   // @ts-ignore
   const eth = window.ethereum;
@@ -30,17 +33,40 @@ async function run() {
     throw new Error("Please let me take your money");
   }
 
-  const hello = new ethers.Contract(
-    "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-    ["function hello() public pure returns (string memory)"],
+  const counter = new ethers.Contract(
+    process.env.CONTRACT_ADDRESS,
+    // NOTE: Old ABI 01_HelloWorld.sol
+    // ["function hello() public pure returns (string memory)"],
+    // NOTE: New ABI 02_Counter.sol
+    [
+      "function count() public",
+      "function getCounter() public view returns (uint32)",
+    ],
     new ethers.providers.Web3Provider(getEth())
   );
 
-  document.body.innerHTML = await hello.hello();
+  // NOTE: New for 02_Counter
+  const el = document.createElement("div");
+  async function setCounter() {
+    el.innerHTML = await counter.getCounter();
+  }
+  setCounter();
+
+  const button = document.createElement("button");
+  button.innerText = "increment";
+  button.onclick = async function() {
+    await counter.count();
+    setCounter();
+  };
+
+  document.body.appendChild(el);
+  document.body.appendChild(button);
+
+  // NOTE: Old for 01_HelloWorld
+  // document.body.innerHTML = await counter.hello();
 }
 
 run();
-
 
 // TODO: Use Complete Code
 // import { ethers } from "ethers";
