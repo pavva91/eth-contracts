@@ -42,7 +42,15 @@ async function run() {
       "function count() public",
       "function getCounter() public view returns (uint32)",
     ],
-    new ethers.providers.Web3Provider(getEth())
+
+    // NOTE: Old ABI 01_HelloWorld.sol (Signer only - read only)
+    // new ethers.providers.Web3Provider(getEth())
+
+    // NOTE: New ABI 02_Counter.sol (write --> we need a Singer, a Provider is not enough)
+    // WARN: If your run a Provider on write call you get an error:
+    // sending a transaction requires a signer (operation="sendTransaction", code=UNSUPPORTED_OPERATION, version=contracts/5.7.0
+    // FIX: Add .getSigner()
+    new ethers.providers.Web3Provider(getEth()).getSigner()
   );
 
   // NOTE: New for 02_Counter
