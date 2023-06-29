@@ -4,7 +4,7 @@ import { ethers } from "hardhat";
 
 describe("Test Hero", function() {
   async function createHero() {
-    const Hero = await ethers.getContractFactory("Hero");
+    const Hero = await ethers.getContractFactory("TestHero");
     const hero = await Hero.deploy();
     await hero.deployed();
 
@@ -35,5 +35,20 @@ describe("Test Hero", function() {
   it("Should get a zero hero array", async () => {
     const emptyArray = [];
     expect(await hero.getHeroes()).to.deep.equal(emptyArray);
+  });
+  it("Should get Hero correctly", async () => {
+    const hero = await createHero();
+
+    await hero.setRandom(69);
+    await hero.createHero(0, {
+      value: ethers.utils.parseEther("0.05"),
+    });
+    const h = (await hero.getHeroes())[0];
+
+    expect(await hero.getStrength(h)).to.equal(6);
+    expect(await hero.getHealth(h)).to.equal(2);
+    expect(await hero.getDexterity(h)).to.equal(14);
+    expect(await hero.getIntellect(h)).to.equal(10);
+    expect(await hero.getMagic(h)).to.equal(16);
   });
 });

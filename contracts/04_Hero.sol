@@ -31,7 +31,7 @@ contract Hero {
     mapping(address => uint[]) addressToHeroes;
 
     // FIX: for NFTs use chainlinkVRF to generate random numbers (https://vrf.chain.link/)
-    function generateRandom() public view returns (uint) {
+    function generateRandom() public view virtual returns (uint) {
         return
             uint(
                 keccak256(abi.encodePacked(block.difficulty, block.timestamp))
@@ -43,26 +43,26 @@ contract Hero {
         return addressToHeroes[msg.sender];
     }
 
-    function getStrength(uint hero) public view returns (uint[] memory) {
-        return (hero >> 2) & 0x1F;
+    function getStrength(uint hero) public view returns (uint32) {
+        return uint32((hero >> 2) & 0x1F);
         // with hero >> 2 we shifted the class off and now strenght represents the first 5 bits
         // Select out only the first 5 bits: 0x1F = 0b11111
     }
 
-    function getHealth(uint hero) public view returns (uint[] memory) {
-        return (hero >> 7) & 0x1F;
+    function getHealth(uint hero) public view returns (uint32) {
+        return uint32((hero >> 7) & 0x1F);
     }
 
-    function getDexterity(uint hero) public view returns (uint[] memory) {
-        return (hero >> 12) & 0x1F;
+    function getDexterity(uint hero) public view returns (uint32) {
+        return uint32((hero >> 12) & 0x1F);
     }
 
-    function getIntellect(uint hero) public view returns (uint[] memory) {
-        return (hero >> 17) & 0x1F;
+    function getIntellect(uint hero) public view returns (uint32) {
+        return uint32((hero >> 17) & 0x1F);
     }
 
-    function getMagic(uint hero) public view returns (uint[] memory) {
-        return (hero >> 22) & 0x1F;
+    function getMagic(uint hero) public view returns (uint32) {
+        return uint32((hero >> 22) & 0x1F);
     }
 
     // Signer is needed
@@ -70,7 +70,7 @@ contract Hero {
         require(msg.value >= 0.05 ether, "Please send more money");
 
         // Stats are: strength, health, dexterity, intellect, magic
-        uint[] stats = new uint[](5);
+        uint[] memory stats = new uint[](5);
         stats[0] = 2; // represent strenght (first 2 bits are the enum 0b00 is Mage, 0b01 is Healer, 0b11 is Barbarian)
         stats[1] = 7; // represent health
         stats[2] = 12; // represent dexterity
