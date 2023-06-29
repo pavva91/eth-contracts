@@ -27,6 +27,20 @@ contract Hero {
         Barbarian
     }
 
+    // Takes addresses and produces out arrays
+    mapping(address => uint[]) addressToHeroes;
+
+    // FIX: for NFTs use chainlinkVRF to generate random numbers
+    function generateRandom() public view returns (uint) {
+        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp)));
+    }
+
+    // Provider is enough
+    function getHeroes() public view returns (uint[] memory) {
+        return addressToHeroes[msg.sender];
+    }
+
+    // Signer is needed
     function createHero(Class class) public payable {
         require(msg.value >= 0.05 ether, "Please send more money");
     }

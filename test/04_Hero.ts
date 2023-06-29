@@ -22,7 +22,7 @@ describe("Test Hero", function() {
 
     try {
       await hero.createHero(0, {
-        value: ethers.utils.parseEther("0.0499999")
+        value: ethers.utils.parseEther("0.0499999"),
       });
     } catch (err) {
       e = err;
@@ -30,5 +30,10 @@ describe("Test Hero", function() {
 
     expect(e.message.includes("Please send more money")).to.equal(true);
     expect(e.message.includes("Please send more money")).to.be.true;
+  });
+
+  it("Should get a zero hero array", async () => {
+    const emptyArray = [];
+    expect(await hero.getHeroes()).to.deep.equal(emptyArray);
   });
 });
