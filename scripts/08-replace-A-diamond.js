@@ -1,3 +1,5 @@
+// NOTE: This script update the new modified version of the diamond wihtout changing the contract address
+
 // TODO: git clone https://github.com/mudgen/diamond-3-hardhat
 // cd diamond-3-hardhat
 // put this file inside scripts
@@ -34,7 +36,6 @@ async function replaceA(diamondAddress) {
   return diamondAddress
 }
 
-const diamondAddr = "0x4631BCAbD6dF18D94796344963cB60d44a4136b6"
+const diamondAddr = "0x525C7063E7C20997BaaE9bDa922159152D0e8417"
 
 replaceA(diamondAddr)
-
