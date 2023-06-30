@@ -58,3 +58,11 @@ require("null-ls").builtins.formatting.prettier.with({
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css", "scss", "less", "html", "json", "jsonc", "yaml", "markdown", "markdown.mdx", "graphql", "handlebars", "solidity" },
 }),
 ```
+
+## Diamond Contract
+
+Scripts from 06 to 11 are on the actual implementation of A smart contract into a diamond (with storage)
+The contracts 10, 11, 12 represent the A smart contract as Diamond (no storage, with storage, add increment function)
+These contracts and scripts run on the diamond repo:
+
+- [https://github.com/mudgen/diamond-3-hardhat](https://github.com/mudgen/diamond-3-hardhat)
