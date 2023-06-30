@@ -17,6 +17,8 @@ contract A {
 
 contract B {
     uint b;
+    uint8 c;
+    uint8 d;
     address ContractA;
 
     constructor(address _A) {
