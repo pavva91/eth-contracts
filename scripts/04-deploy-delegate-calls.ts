@@ -11,6 +11,17 @@ async function deploy(name, ...args) {
   return fallback;
 }
 
+// NOTE: Print contract storage slots
+async function printStorage(contract, name, count) {
+  for (let i = 0; i < count; i++) {
+    console.log(
+      name,
+      i,
+      await ethers.provider.getStorageAt(contract.address, i)
+    );
+  }
+}
+
 async function fallback() {
   const a = await deploy("A");
   const b = await deploy("B", a.address);
@@ -29,6 +40,7 @@ async function fallback() {
   console.log("B", await b.getB());
   console.log("----------");
 
+  await printStorage(b, "B", 4);
 }
 
 fallback();
